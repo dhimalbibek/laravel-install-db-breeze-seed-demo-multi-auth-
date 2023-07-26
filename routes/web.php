@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\backend\PropertyTypeCobtroller;
+
 
 
 
@@ -34,9 +36,15 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-
+//  admin route
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
+    Route::get('admin/logout', [AdminController::class, 'AdminLogout'])->name('admin.logout');
+    Route::get('admin/profile', [AdminController::class, 'AdminProfile'])->name('admin.profile');
+    Route::post('admin/profile/store', [AdminController::class, 'AdminProfileStore'])->name('admin.profile.store');
+    Route::get('admin/change/password', [AdminController::class, 'AdminChangePassword'])->name('admin.password.change');
+    Route::post('admin/update/password', [AdminController::class, 'AdminUpdatePassword'])->name('admin.update.password');
+
 
 });
 // end group admin middleware
@@ -44,3 +52,4 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:agent'])->group(function () {
     Route::get('agent/dashboard', [AgentController::class, 'AgentDashboard'])->name('agent.dashboard');
 });
+Route::get('/admin/login', [AdminController::class, 'AdminLogin'])->name('admin.login');
